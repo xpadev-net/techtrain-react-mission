@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Storage from "../libraries/storage";
 import fetchLib from "../libraries/fetchLib";
-const SignUp = (props) => {
-	const [username,setUsername] = useState(""),
-		[email,setEmail] = useState(""),
+const Login = (props) => {
+	const [email,setEmail] = useState(""),
 		[password,setPassword] = useState(""),
 		[msg,setMsg] = useState(""),
 		[init,setInit] = useState(false);
@@ -25,13 +24,13 @@ const SignUp = (props) => {
 		}
 		init();
 	},[]);
-	const reg = async() => {
-		const req = await fetch('https://api-for-missions-and-railways.herokuapp.com/users',{
+	const log = async() => {
+		const req = await fetch('https://api-for-missions-and-railways.herokuapp.com/signin',{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({"name":username,"email":email,"password":password})
+			body: JSON.stringify({"email":email,"password":password})
 		});
 		const res = await req.json();
 		if (res.ErrorCode){
@@ -39,21 +38,16 @@ const SignUp = (props) => {
 			return;
 		}
 		Storage.set("token",res.token);
-		Storage.set("username",username);
 		props.go("/");
 	}
 	if (!init){
 		return <h1>loading...</h1>;
 	}
 	return <>
-		<h1>Sign Up</h1>
+		<h1>Login</h1>
 		<p>{msg}</p>
 		<table>
 			<tbody>
-				<tr>
-					<th>username</th>
-					<td><input type="text" value={username} onChange={(e)=>setUsername(e.target.value)}/></td>
-				</tr>
 				<tr>
 					<th>email</th>
 					<td><input type="email" value={email} onChange={(e)=>setEmail(e.target.value)}/></td>
@@ -64,12 +58,12 @@ const SignUp = (props) => {
 				</tr>
 				<tr>
 					<th colSpan={2}>
-						<button onClick={()=>reg()}>SignUp</button>
+						<button onClick={()=>log()}>Login</button>
 					</th>
 				</tr>
 			</tbody>
 		</table>
-		<a onClick={()=>props.go("/login")}>Login</a>
+		<a onClick={()=>props.go("/signup")}>Create Account</a>
 	</>;
 }
-export default SignUp;
+export default Login;
