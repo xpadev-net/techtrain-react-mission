@@ -34,6 +34,9 @@ const Header = (props) => {
 	return <div className={Styles.Header}>
 		<div className={Styles.left}>
 			<div onClick={()=>{props.go("/")}} className={Styles.title}>Techtrain Railway Mission</div>
+			<div className={Styles.nav}>
+				<div onClick={()=>{props.go("/new")}}>Post</div>
+			</div>
 		</div>
 		{header}
 	</div>;

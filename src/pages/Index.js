@@ -63,11 +63,16 @@ const Login = (props) => {
 			<h1>データの取得に失敗しました</h1>
 		</>
 	}
-	return <>
+	return <div className={Styles.wrapper}>
+		{loading? <div className={Styles.bar}>
+			<div/>
+		</div>:""}
 		{list.map((data,key)=>{
 			return <div className={Styles.item} key={key}>
-				<h2>{data.title}</h2>
-
+				<h2 onClick={()=>{props.go(`/detail/${data.id}`)}}>{data.title}</h2>
+				{data.isMine?<div className={Styles.button} onClick={()=> {
+					props.go(`/edit/${data.id}`)
+				}}>編集</div>:""}
 			</div>
 		})}
 		{offset<0?<p>これ以上はありません</p>:<button onClick={async()=>{
@@ -75,6 +80,6 @@ const Login = (props) => {
 			setList([...list,...await getList(offset)]);
 			setLoading(false);
 		}} disabled={loading}>load more</button>}
-	</>;
+	</div>;
 }
 export default Login;

@@ -4,13 +4,19 @@
 	justify-content: space-between;
 	height: 40px;
 	border-bottom: 1px solid black;
-	margin-bottom: 10px;
 	padding: 0 20px;
 	user-select: none;
 	line-height: 40px;
 	.left{
+		display: flex;
+		flex-direction: row;
 		.title{
 			cursor: pointer;
+		}
+		.nav{
+			margin-left: 50px;
+			display: flex;
+			flex-direction: row;
 		}
 	}
 	.account{
@@ -26,6 +32,7 @@
 			right: 0;
 			width: 100%;
 			text-align: center;
+			z-index: 1;
 			div{
 				background-color: white;
 				border: solid 1px;

@@ -6,7 +6,6 @@ const fetchLib = (url,options={}) => {
 			options.headers={}
 		}
 		options.headers["Authorization"]=`Bearer ${token}`;
-		console.log(options);
 		return fetch(url,options);
 	}
 	return fetch(url,options);
