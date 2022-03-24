@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Storage from "../libraries/storage";
 import Styles from '../Styles/index.module.scss';
 import fetchLib from "../libraries/fetchLib";
-const Login = (props) => {
+const Index = (props) => {
 	const [list,setList] = useState([]),
 		[offset,setOffset] = useState(0),
 		[loading,setLoading] = useState(false);
@@ -13,7 +13,7 @@ const Login = (props) => {
 			try{
 				res = JSON.parse(res);
 			}catch (e) {
-				return 400;
+				return `${req.status}`;
 			}
 			return res.ErrorCode||res;
 		}
@@ -25,6 +25,7 @@ const Login = (props) => {
 				case "500":
 					return false;
 				case "403":
+				case "401":
 					Storage.remove("token");
 					props.go('/login');
 					break;
@@ -82,4 +83,4 @@ const Login = (props) => {
 		}} disabled={loading}>load more</button>}
 	</div>;
 }
-export default Login;
+export default Index;

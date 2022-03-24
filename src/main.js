@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 
 /* pages */
@@ -13,6 +13,7 @@ import Edit from "./pages/Edit";
 
 /* components */
 import Header from "./components/Header";
+import fetchLib from "./libraries/fetchLib";
 
 /* page scripts */
 let root = document.createElement('div');
@@ -27,27 +28,46 @@ const Router = () => {
 		}
 		return match[1];
 	}
-	const [url,setUrl] = useState(getUrl());
-	const goUrl = (url) => {
+	const [url,setUrl] = useState(getUrl()),
+		[userData,setUserData] = useState(false);
+	const goUrl = useCallback((url) => {
 		window.location.hash=url;
 		setUrl(getUrl());
+	},[window.location.hash]);
+	const reloadHeader = useCallback(() => {
+		getUserData();
+	},[]);
+	const getUserData = async() => {
+		const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users',{auth:true});
+		let res = await req.text();
+		try{
+			setUserData(JSON.parse(res));
+		}catch (e) {
+			setUserData(false);
+		}
 	}
+
 	const onHashChange = () => {
 		setUrl(getUrl());
 	}
 	useEffect(()=>{
+		const init = async() => {
+			await getUserData();
+		}
+		init();
 		window.addEventListener("hashchange",onHashChange);
 		return () => {
 			window.removeEventListener("hashchange",onHashChange);
 		}
 	},[]);
+
 	let component;
 	switch (url) {
 		case "signup":
-			component=<SignUp go={goUrl}/>;
+			component=<SignUp go={goUrl}  reloadHeader={reloadHeader}/>;
 			break;
 		case "login":
-			component=<Login go={goUrl}/>;
+			component=<Login go={goUrl}  reloadHeader={reloadHeader}/>;
 			break;
 		default:
 			switch (url) {
@@ -55,7 +75,7 @@ const Router = () => {
 					component=<Index go={goUrl}/>;
 					break;
 				case "profile":
-					component=<Profile go={goUrl}/>;
+					component=<Profile go={goUrl} reloadHeader={reloadHeader}/>;
 					break;
 				case "new":
 					component=<New go={goUrl}/>;
@@ -70,7 +90,7 @@ const Router = () => {
 					component=<Error go={goUrl}/>;
 			}
 			component=<>
-				<Header go={goUrl}/>
+				<Header go={goUrl} user={userData}/>
 				{component}
 			</>
 	}

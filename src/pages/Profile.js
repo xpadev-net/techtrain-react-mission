@@ -39,6 +39,7 @@ const Profile = (props) => {
 		if (!res.ErrorCode){
 			initialize();
 			setMsg("更新しました");
+			props.reloadHeader();
 			return;
 		}
 		if (res.ErrorCode===403){

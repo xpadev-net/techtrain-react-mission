@@ -18,6 +18,7 @@ const SignUp = (props) => {
 				return
 			}
 			if (!res.ErrorCode){
+				props.reloadHeader();
 				props.go("/");
 				return
 			}

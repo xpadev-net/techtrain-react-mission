@@ -7732,6 +7732,7 @@
 	      }
 
 	      if (!res.ErrorCode) {
+	        props.reloadHeader();
 	        props.go("/");
 	        return;
 	      }
@@ -7791,7 +7792,7 @@
 	  }, "Login"));
 	};
 
-	const Login$1 = props => {
+	const Login = props => {
 	  const [email, setEmail] = react.exports.useState(""),
 	        [password, setPassword] = react.exports.useState(""),
 	        [msg, setMsg] = react.exports.useState(""),
@@ -7811,6 +7812,7 @@
 	      }
 
 	      if (!res.ErrorCode) {
+	        props.reloadHeader();
 	        props.go("/");
 	        return;
 	      }
@@ -7897,7 +7899,7 @@
 	var Styles$1 = {"wrapper":"index-module_wrapper__vrClk","item":"index-module_item__7XkMo","button":"index-module_button__H6w4G","bar":"index-module_bar__ctqCZ","box-1":"index-module_box-1__zxmem","box-2":"index-module_box-2__T7F-2"};
 	styleInject(css_248z$1);
 
-	const Login = props => {
+	const Index = props => {
 	  const [list, setList] = react.exports.useState([]),
 	        [offset, setOffset] = react.exports.useState(0),
 	        [loading, setLoading] = react.exports.useState(false);
@@ -7912,7 +7914,7 @@
 	      try {
 	        res = JSON.parse(res);
 	      } catch (e) {
-	        return 400;
+	        return `${req.status}`;
 	      }
 
 	      return res.ErrorCode || res;
@@ -7929,6 +7931,7 @@
 	          return false;
 
 	        case "403":
+	        case "401":
 	          Storage.remove("token");
 	          props.go('/login');
 	          break;
@@ -8309,49 +8312,7 @@
 	styleInject(css_248z);
 
 	const Header = props => {
-	  const [header, setHeader] = react.exports.useState( /*#__PURE__*/React.createElement("div", null));
-	  react.exports.useEffect(() => {
-	    const init = async () => {
-	      const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users', {
-	        auth: true
-	      });
-	      let res = await req.text();
-	      let error = false;
-
-	      try {
-	        res = JSON.parse(res);
-	      } catch (e) {
-	        error = true;
-	      }
-
-	      if (res.ErrorCode || error) {
-	        setHeader( /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
-	          onClick: () => props.go("/login")
-	        }, "login"), /*#__PURE__*/React.createElement("button", {
-	          onClick: () => props.go("/signup")
-	        }, "signup")));
-	      } else {
-	        setHeader( /*#__PURE__*/React.createElement("div", {
-	          className: Styles.account
-	        }, /*#__PURE__*/React.createElement("span", {
-	          className: Styles.name
-	        }, res.name), /*#__PURE__*/React.createElement("div", {
-	          className: Styles.dropdown
-	        }, /*#__PURE__*/React.createElement("div", {
-	          onClick: () => {
-	            props.go("/profile");
-	          }
-	        }, "profile"), /*#__PURE__*/React.createElement("div", {
-	          onClick: () => {
-	            Storage.remove("token");
-	            props.go("/login");
-	          }
-	        }, "logout"))));
-	      }
-	    };
-
-	    init();
-	  }, []);
+	  const res = props.user;
 	  return /*#__PURE__*/React.createElement("div", {
 	    className: Styles.Header
 	  }, /*#__PURE__*/React.createElement("div", {
@@ -8367,7 +8328,26 @@
 	    onClick: () => {
 	      props.go("/new");
 	    }
-	  }, "Post"))), header);
+	  }, "Post"))), !res || res.ErrorCode ? /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("button", {
+	    onClick: () => props.go("/login")
+	  }, "login"), /*#__PURE__*/React.createElement("button", {
+	    onClick: () => props.go("/signup")
+	  }, "signup")) : /*#__PURE__*/React.createElement("div", {
+	    className: Styles.account
+	  }, /*#__PURE__*/React.createElement("span", {
+	    className: Styles.name
+	  }, res.name), /*#__PURE__*/React.createElement("div", {
+	    className: Styles.dropdown
+	  }, /*#__PURE__*/React.createElement("div", {
+	    onClick: () => {
+	      props.go("/profile");
+	    }
+	  }, "profile"), /*#__PURE__*/React.createElement("div", {
+	    onClick: () => {
+	      Storage.remove("token");
+	      props.go("/login");
+	    }
+	  }, "logout"))));
 	};
 
 	/* page scripts */
@@ -8389,95 +8369,106 @@
 	  };
 
 	  const [url, setUrl] = react.exports.useState(getUrl()),
-	        [components, setComponents] = react.exports.useState( /*#__PURE__*/React.createElement(React.Fragment, null));
+	        [userData, setUserData] = react.exports.useState(false);
 	  const goUrl = react.exports.useCallback(url => {
 	    window.location.hash = url;
 	    setUrl(getUrl());
 	  }, [window.location.hash]);
 	  const reloadHeader = react.exports.useCallback(() => {
-	    setComponents(getComponents(false));
-	    setComponents(getComponents());
+	    getUserData();
 	  }, []);
+
+	  const getUserData = async () => {
+	    const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users', {
+	      auth: true
+	    });
+	    let res = await req.text();
+
+	    try {
+	      setUserData(JSON.parse(res));
+	    } catch (e) {
+	      setUserData(false);
+	    }
+	  };
 
 	  const onHashChange = () => {
 	    setUrl(getUrl());
 	  };
 
 	  react.exports.useEffect(() => {
+	    const init = async () => {
+	      await getUserData();
+	    };
+
+	    init();
 	    window.addEventListener("hashchange", onHashChange);
-	    setComponents(getComponents());
 	    return () => {
 	      window.removeEventListener("hashchange", onHashChange);
 	    };
 	  }, []);
+	  let component;
 
-	  const getComponents = (addHeader = true) => {
-	    let component;
+	  switch (url) {
+	    case "signup":
+	      component = /*#__PURE__*/React.createElement(SignUp, {
+	        go: goUrl,
+	        reloadHeader: reloadHeader
+	      });
+	      break;
 
-	    switch (url) {
-	      case "signup":
-	        component = /*#__PURE__*/React.createElement(SignUp, {
-	          go: goUrl
-	        });
-	        break;
+	    case "login":
+	      component = /*#__PURE__*/React.createElement(Login, {
+	        go: goUrl,
+	        reloadHeader: reloadHeader
+	      });
+	      break;
 
-	      case "login":
-	        component = /*#__PURE__*/React.createElement(Login$1, {
-	          go: goUrl
-	        });
-	        break;
-
-	      default:
-	        switch (url) {
-	          case "":
-	            component = /*#__PURE__*/React.createElement(Login, {
-	              go: goUrl
-	            });
-	            break;
-
-	          case "profile":
-	            component = /*#__PURE__*/React.createElement(Profile, {
-	              go: goUrl,
-	              reloadHeader: reloadHeader
-	            });
-	            break;
-
-	          case "new":
-	            component = /*#__PURE__*/React.createElement(New, {
-	              go: goUrl
-	            });
-	            break;
-
-	          case url.startsWith("detail/") && url:
-	            component = /*#__PURE__*/React.createElement(detail, {
-	              go: goUrl
-	            });
-	            break;
-
-	          case url.startsWith("edit/") && url:
-	            component = /*#__PURE__*/React.createElement(Edit, {
-	              go: goUrl
-	            });
-	            break;
-
-	          default:
-	            component = /*#__PURE__*/React.createElement(Error$1, {
-	              go: goUrl
-	            });
-	        }
-
-	        if (addHeader) {
-	          component = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, {
+	    default:
+	      switch (url) {
+	        case "":
+	          component = /*#__PURE__*/React.createElement(Index, {
 	            go: goUrl
-	          }), component);
-	        }
+	          });
+	          break;
 
-	    }
+	        case "profile":
+	          component = /*#__PURE__*/React.createElement(Profile, {
+	            go: goUrl,
+	            reloadHeader: reloadHeader
+	          });
+	          break;
 
-	    return component;
-	  };
+	        case "new":
+	          component = /*#__PURE__*/React.createElement(New, {
+	            go: goUrl
+	          });
+	          break;
 
-	  return /*#__PURE__*/React.createElement(React.Fragment, null, components);
+	        case url.startsWith("detail/") && url:
+	          component = /*#__PURE__*/React.createElement(detail, {
+	            go: goUrl
+	          });
+	          break;
+
+	        case url.startsWith("edit/") && url:
+	          component = /*#__PURE__*/React.createElement(Edit, {
+	            go: goUrl
+	          });
+	          break;
+
+	        default:
+	          component = /*#__PURE__*/React.createElement(Error$1, {
+	            go: goUrl
+	          });
+	      }
+
+	      component = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, {
+	        go: goUrl,
+	        user: userData
+	      }), component);
+	  }
+
+	  return /*#__PURE__*/React.createElement(React.Fragment, null, component);
 	};
 
 	ReactDOM.render( /*#__PURE__*/React.createElement(Router, null), root);
