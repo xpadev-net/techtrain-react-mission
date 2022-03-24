@@ -1,3 +1,5 @@
+
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
 (function (factory) {
 	typeof define === 'function' && define.amd ? define(factory) :
 	factory();
@@ -8051,6 +8053,7 @@
 	    if (!res.ErrorCode) {
 	      initialize();
 	      setMsg("更新しました");
+	      props.reloadHeader();
 	      return;
 	    }
 
@@ -8385,12 +8388,16 @@
 	    return match[1];
 	  };
 
-	  const [url, setUrl] = react.exports.useState(getUrl());
-
-	  const goUrl = url => {
+	  const [url, setUrl] = react.exports.useState(getUrl()),
+	        [components, setComponents] = react.exports.useState( /*#__PURE__*/React.createElement(React.Fragment, null));
+	  const goUrl = react.exports.useCallback(url => {
 	    window.location.hash = url;
 	    setUrl(getUrl());
-	  };
+	  }, [window.location.hash]);
+	  const reloadHeader = react.exports.useCallback(() => {
+	    setComponents(getComponents(false));
+	    setComponents(getComponents());
+	  }, []);
 
 	  const onHashChange = () => {
 	    setUrl(getUrl());
@@ -8398,69 +8405,79 @@
 
 	  react.exports.useEffect(() => {
 	    window.addEventListener("hashchange", onHashChange);
+	    setComponents(getComponents());
 	    return () => {
 	      window.removeEventListener("hashchange", onHashChange);
 	    };
 	  }, []);
-	  let component;
 
-	  switch (url) {
-	    case "signup":
-	      component = /*#__PURE__*/React.createElement(SignUp, {
-	        go: goUrl
-	      });
-	      break;
+	  const getComponents = (addHeader = true) => {
+	    let component;
 
-	    case "login":
-	      component = /*#__PURE__*/React.createElement(Login$1, {
-	        go: goUrl
-	      });
-	      break;
+	    switch (url) {
+	      case "signup":
+	        component = /*#__PURE__*/React.createElement(SignUp, {
+	          go: goUrl
+	        });
+	        break;
 
-	    default:
-	      switch (url) {
-	        case "":
-	          component = /*#__PURE__*/React.createElement(Login, {
+	      case "login":
+	        component = /*#__PURE__*/React.createElement(Login$1, {
+	          go: goUrl
+	        });
+	        break;
+
+	      default:
+	        switch (url) {
+	          case "":
+	            component = /*#__PURE__*/React.createElement(Login, {
+	              go: goUrl
+	            });
+	            break;
+
+	          case "profile":
+	            component = /*#__PURE__*/React.createElement(Profile, {
+	              go: goUrl,
+	              reloadHeader: reloadHeader
+	            });
+	            break;
+
+	          case "new":
+	            component = /*#__PURE__*/React.createElement(New, {
+	              go: goUrl
+	            });
+	            break;
+
+	          case url.startsWith("detail/") && url:
+	            component = /*#__PURE__*/React.createElement(detail, {
+	              go: goUrl
+	            });
+	            break;
+
+	          case url.startsWith("edit/") && url:
+	            component = /*#__PURE__*/React.createElement(Edit, {
+	              go: goUrl
+	            });
+	            break;
+
+	          default:
+	            component = /*#__PURE__*/React.createElement(Error$1, {
+	              go: goUrl
+	            });
+	        }
+
+	        if (addHeader) {
+	          component = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, {
 	            go: goUrl
-	          });
-	          break;
+	          }), component);
+	        }
 
-	        case "profile":
-	          component = /*#__PURE__*/React.createElement(Profile, {
-	            go: goUrl
-	          });
-	          break;
+	    }
 
-	        case "new":
-	          component = /*#__PURE__*/React.createElement(New, {
-	            go: goUrl
-	          });
-	          break;
+	    return component;
+	  };
 
-	        case url.startsWith("detail/") && url:
-	          component = /*#__PURE__*/React.createElement(detail, {
-	            go: goUrl
-	          });
-	          break;
-
-	        case url.startsWith("edit/") && url:
-	          component = /*#__PURE__*/React.createElement(Edit, {
-	            go: goUrl
-	          });
-	          break;
-
-	        default:
-	          component = /*#__PURE__*/React.createElement(Error$1, {
-	            go: goUrl
-	          });
-	      }
-
-	      component = /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Header, {
-	        go: goUrl
-	      }), component);
-	  }
-
-	  return /*#__PURE__*/React.createElement(React.Fragment, null, component);
+	  return /*#__PURE__*/React.createElement(React.Fragment, null, components);
 	};
 
 	ReactDOM.render( /*#__PURE__*/React.createElement(Router, null), root);
