@@ -16,6 +16,7 @@ import Header from "./components/Header";
 import fetchLib from "./libraries/fetchLib";
 
 /* page scripts */
+document.title = "Techtrain Railway Mission";
 let root = document.createElement('div');
 root.id = 'root';
 document.body.append(root);

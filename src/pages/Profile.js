@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import fetchLib from "../libraries/fetchLib";
 import Storage from "../libraries/storage";
+import Loading from "../Styles/loading.module.scss";
 
 const Profile = (props) => {
 	const [init,setInit] = useState(false),
@@ -52,6 +53,9 @@ const Profile = (props) => {
 
 	}
 	return <>
+		{!init? <div className={Loading.bar}>
+			<div/>
+		</div>:""}
 		<p>{msg}</p>
 		<table>
 			<tbody>

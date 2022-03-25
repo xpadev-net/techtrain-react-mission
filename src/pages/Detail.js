@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Error from "./Error";
 import fetchLib from "../libraries/fetchLib";
+import Loading from "../Styles/loading.module.scss";
 const detail = () => {
 	const match = window.location.hash.match(/#\/detail\/(.+)/);
 	if (!match)return <Error/>;
@@ -18,7 +19,9 @@ const detail = () => {
 		init();
 	},[]);
 	if (data===false){
-		return <h1>Loading...</h1>;
+		return <div className={Loading.bar}>
+			<div/>
+		</div>;
 	}else if(data===-1){
 		return <Error/>;
 	}

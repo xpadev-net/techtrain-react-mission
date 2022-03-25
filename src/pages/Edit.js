@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import fetchLib from "../libraries/fetchLib";
 import Error from "./Error";
+import Loading from "../Styles/loading.module.scss";
 const Edit = (props) => {
 	const match = window.location.hash.match(/#\/edit\/(.+)/);
 	if (!match)return <Error/>;
@@ -75,6 +76,9 @@ const Edit = (props) => {
 		return <Error/>;
 	}
 	return <>
+		{loading? <div className={Loading.bar}>
+			<div/>
+		</div>:""}
 		<h1>書籍レビュー編集</h1>
 		<p>{msg}</p>
 		<table>

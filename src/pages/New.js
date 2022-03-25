@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import fetchLib from "../libraries/fetchLib";
+import Loading from "../Styles/loading.module.scss";
 const New = (props) => {
 	const [title,setTitle] = useState(""),
 		[url,setUrl] = useState(""),
@@ -26,6 +27,9 @@ const New = (props) => {
 		}
 	}
 	return <>
+		{loading? <div className={Loading.bar}>
+			<div/>
+		</div>:""}
 		<h1>書籍レビュー追加</h1>
 		<p>{msg}</p>
 		<table>
