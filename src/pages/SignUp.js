@@ -36,12 +36,12 @@ const SignUp = (props) => {
 		});
 		const res = await req.json();
 		if (res.ErrorCode){
-			props.reloadHeader();
 			setMsg(res.ErrorMessageJP);
 			return;
 		}
 		Storage.set("token",res.token);
 		Storage.set("username",username);
+		props.reloadHeader();
 		props.go("/");
 	}
 	if (!init){
