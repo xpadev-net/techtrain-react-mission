@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Storage from "../libraries/storage";
 import Styles from '../Styles/index.module.scss';
+import Loading from "../Styles/loading.module.scss";
 import fetchLib from "../libraries/fetchLib";
 const Index = (props) => {
 	const [list,setList] = useState([]),
@@ -65,7 +66,7 @@ const Index = (props) => {
 		</>
 	}
 	return <div className={Styles.wrapper}>
-		{loading? <div className={Styles.bar}>
+		{loading? <div className={Loading.bar}>
 			<div/>
 		</div>:""}
 		{list.map((data,key)=>{
