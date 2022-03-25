@@ -35,6 +35,7 @@ const Login = (props) => {
 		});
 		const res = await req.json();
 		if (res.ErrorCode){
+			props.reloadHeader();
 			setMsg(res.ErrorMessageJP);
 			return;
 		}

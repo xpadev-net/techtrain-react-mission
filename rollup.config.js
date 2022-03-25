@@ -23,7 +23,7 @@ export default {
         }),
         replace({
             preventAssignment:true,
-            'process.env.NODE_ENV': JSON.stringify( 'development' ),
+            'process.env.NODE_ENV': JSON.stringify( 'production' ),
         }),
         babel({
             presets: ["@babel/preset-react"],
