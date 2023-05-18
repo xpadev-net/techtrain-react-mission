@@ -39,7 +39,7 @@ const Router = () => {
 		getUserData();
 	},[]);
 	const getUserData = async() => {
-		const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users',{auth:true});
+		const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users',{auth:true});
 		let res = await req.text();
 		try{
 			setUserData(JSON.parse(res));

@@ -10,7 +10,7 @@ const New = (props) => {
 		[loading,setLoading] = useState(false);
 	const post = async() => {
 		setLoading(true);
-		const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/books',{
+		const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/books',{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

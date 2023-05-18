@@ -8,7 +8,7 @@ const Profile = (props) => {
 		[username, setUsername] = useState("loading..."),
 		[msg,setMsg] = useState("");
 	const initialize = async()=>{
-		const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users',{auth:true});
+		const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users',{auth:true});
 		let res = await req.text();
 		try{
 			res = JSON.parse(res);
@@ -28,7 +28,7 @@ const Profile = (props) => {
 	},[]);
 	const update = async() => {
 		setInit(false);
-		const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users', {
+		const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users', {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json'

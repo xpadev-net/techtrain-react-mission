@@ -9,7 +9,7 @@ const Index = (props) => {
 		[loading,setLoading] = useState(false);
 	const getList = async(offset=0) => {
 		const req = async(usePublic=false,offset=0) => {
-			const req = await fetchLib(`https://api-for-missions-and-railways.herokuapp.com/${usePublic?"public/":""}books?offset=${offset}`,{auth:!usePublic});
+			const req = await fetchLib(`https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/${usePublic?"public/":""}books?offset=${offset}`,{auth:!usePublic});
 			let res = await req.text();
 			try{
 				res = JSON.parse(res);

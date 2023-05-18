@@ -8,7 +8,7 @@ const Login = (props) => {
 		[init,setInit] = useState(false);
 	useEffect(()=>{
 		const init = async()=>{
-			const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users',{auth:true});
+			const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users',{auth:true});
 			let res = await req.text();
 			try{
 				res = JSON.parse(res);
@@ -26,7 +26,7 @@ const Login = (props) => {
 		init();
 	},[]);
 	const log = async() => {
-		const req = await fetch('https://api-for-missions-and-railways.herokuapp.com/signin',{
+		const req = await fetch('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/signin',{
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

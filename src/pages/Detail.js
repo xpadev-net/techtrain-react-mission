@@ -8,7 +8,7 @@ const detail = () => {
 	const [data,setData] = useState(false);
 	useEffect(()=>{
 		const init = async() => {
-			const req = await fetchLib(`https://api-for-missions-and-railways.herokuapp.com/books/${match[1]}`,{auth:true});
+			const req = await fetchLib(`https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/books/${match[1]}`,{auth:true});
 			let res = await req.json();
 			if(res.ErrorCode){
 				setData(-1);
