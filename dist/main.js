@@ -8483,7 +8483,7 @@
 	        [init, setInit] = react.exports.useState(false);
 	  react.exports.useEffect(() => {
 	    const init = async () => {
-	      const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users', {
+	      const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users', {
 	        auth: true
 	      });
 	      let res = await req.text();
@@ -8508,7 +8508,7 @@
 	  }, []);
 
 	  const reg = async () => {
-	    const req = await fetch('https://api-for-missions-and-railways.herokuapp.com/users', {
+	    const req = await fetch('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users', {
 	      method: 'POST',
 	      headers: {
 	        'Content-Type': 'application/json'
@@ -8564,7 +8564,7 @@
 	        [init, setInit] = react.exports.useState(false);
 	  react.exports.useEffect(() => {
 	    const init = async () => {
-	      const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users', {
+	      const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users', {
 	        auth: true
 	      });
 	      let res = await req.text();
@@ -8589,7 +8589,7 @@
 	  }, []);
 
 	  const log = async () => {
-	    const req = await fetch('https://api-for-missions-and-railways.herokuapp.com/signin', {
+	    const req = await fetch('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/signin', {
 	      method: 'POST',
 	      headers: {
 	        'Content-Type': 'application/json'
@@ -8676,7 +8676,7 @@
 
 	  const getList = async (offset = 0) => {
 	    const req = async (usePublic = false, offset = 0) => {
-	      const req = await fetchLib(`https://api-for-missions-and-railways.herokuapp.com/${usePublic ? "public/" : ""}books?offset=${offset}`, {
+	      const req = await fetchLib(`https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/${usePublic ? "public/" : ""}books?offset=${offset}`, {
 	        auth: !usePublic
 	      });
 	      let res = await req.text();
@@ -8784,7 +8784,7 @@
 	        [msg, setMsg] = react.exports.useState("");
 
 	  const initialize = async () => {
-	    const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users', {
+	    const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users', {
 	      auth: true
 	    });
 	    let res = await req.text();
@@ -8811,7 +8811,7 @@
 
 	  const update = async () => {
 	    setInit(false);
-	    const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users', {
+	    const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users', {
 	      method: 'PUT',
 	      headers: {
 	        'Content-Type': 'application/json'
@@ -8865,7 +8865,7 @@
 
 	  const post = async () => {
 	    setLoading(true);
-	    const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/books', {
+	    const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/books', {
 	      method: 'POST',
 	      headers: {
 	        'Content-Type': 'application/json'
@@ -8934,7 +8934,7 @@
 	  const [data, setData] = react.exports.useState(false);
 	  react.exports.useEffect(() => {
 	    const init = async () => {
-	      const req = await fetchLib(`https://api-for-missions-and-railways.herokuapp.com/books/${match[1]}`, {
+	      const req = await fetchLib(`https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/books/${match[1]}`, {
 	        auth: true
 	      });
 	      let res = await req.json();
@@ -8973,7 +8973,7 @@
 
 	  const post = async () => {
 	    setLoading(true);
-	    const req = await fetchLib(`https://api-for-missions-and-railways.herokuapp.com/books/${match[1]}`, {
+	    const req = await fetchLib(`https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/books/${match[1]}`, {
 	      method: 'PUT',
 	      headers: {
 	        'Content-Type': 'application/json'
@@ -8997,7 +8997,7 @@
 
 	  const remove = async () => {
 	    setLoading(true);
-	    const req = await fetchLib(`https://api-for-missions-and-railways.herokuapp.com/books/${match[1]}`, {
+	    const req = await fetchLib(`https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/books/${match[1]}`, {
 	      method: 'DELETE',
 	      auth: true
 	    });
@@ -9023,7 +9023,7 @@
 
 	  react.exports.useEffect(() => {
 	    const init = async () => {
-	      const req = await fetchLib(`https://api-for-missions-and-railways.herokuapp.com/books/${match[1]}`, {
+	      const req = await fetchLib(`https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/books/${match[1]}`, {
 	        auth: true
 	      });
 	      let res = await req.json();
@@ -9158,7 +9158,7 @@
 	  }, []);
 
 	  const getUserData = async () => {
-	    const req = await fetchLib('https://api-for-missions-and-railways.herokuapp.com/users', {
+	    const req = await fetchLib('https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com/users', {
 	      auth: true
 	    });
 	    let res = await req.text();
